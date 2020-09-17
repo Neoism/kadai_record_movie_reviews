@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  watched_on: 2020-09-17
+  theater: MyString
+  comment: MyText
+
+two:
+  title: MyString
+  watched_on: 2020-09-17
+  theater: MyString
+  comment: MyText
