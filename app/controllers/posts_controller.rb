@@ -1,10 +1,6 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!
 
-  def index
-    @posts = Post.all
-  end
-
   def new
     @post = Post.new
   end
@@ -16,7 +12,12 @@ class PostsController < ApplicationController
     redirect_to root_path, notice: 'save'
   end
 
+  def index
+    @posts = Post.all
+  end
+
   def show
+    @post = Post.find(params[:id])
   end
 
   def edit
@@ -25,6 +26,6 @@ class PostsController < ApplicationController
   private
   post_attr = [:title, :watched_on, :theater, :comment]
   def post_params
-    params.require(:post).permit(:title, :watched_on, :theater, :comment)
+    params.require(:post).permit(:title, :watched_on, :theater, :comment, :rate)
   end
 end

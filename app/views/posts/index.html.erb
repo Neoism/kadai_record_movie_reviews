@@ -7,11 +7,26 @@
   <tbody>
     <% @posts.each do |post| %>
       <tr>
-        <td><%= post.title %></td>
-        <td><%= post.watched_on%></td>
-        <td><%= post.theater %></td>
-        <td><%= post.comment %></td>
+        <td><%= link_to post.title, post_path(post) %></td>
+        <td><%= post.watched_on %></td>
+        <td><%= post.theater    %></td>
+        <td><%= post.comment    %></td>
+        <td>
+          <div id="star-rate-<%= post.id %>"></div>
+          <script>
+            $('#star-rate-<%= post.id %>').raty({
+              size: 36,
+              starOff:  '<%= asset_path('star-off.png') %>',
+              starOn :  '<%= asset_path('star-on.png') %>',
+              starHalf: '<%= asset_path('star-half.png') %>',
+              half: true,
+              readOnly: true,
+              score: <%= post.rate %>,
+            });
+          </script> 
+          </td>
       </tr>
     <% end %>
   </tbody>
 </table>
+

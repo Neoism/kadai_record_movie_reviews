@@ -1,0 +1,7 @@
+<header>
+  <% if user_signed_in? %>
+  <% else %>
+    <%= link_to 'サインアップ', new_user_registration_path %>
+    <%= link_to 'ログイン', new_user_session_path %>
+  <% end %>
+</header>
