@@ -1,4 +1,13 @@
 <h1>Posts#show</h1>
 <p>Find me in app/views/posts/show.html.erb</p>
 
+<%= @post.title %>
+<%= @post.comment %>
+<%= @post.helpfuls.count %>
+<% if current_user.already_helpfuled?(@post) %>
+  <%= button_to '参考になった！を取り消す', post_helpful_path(@post), method: :delete %>
+<% else %>
+  <%= button_to '参考になった！', post_helpfuls_path(@post) %>
+<% end %>
+
 <%= link_to '編集する', edit_post_path %>

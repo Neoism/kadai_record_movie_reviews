@@ -18,9 +18,15 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+    @helpful = Helpful.new
   end
 
   def edit
+    @post = Post.find(params[:id])
+  end
+
+  def update
+
   end
 
   private
