@@ -22,3 +22,6 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+質問事項メモ
+- bootstrap4にしたくてbootstrap gemを入れようとしたらautoprefixerでエラーが出て導入できなかったが、どうすれば導入できたのか。

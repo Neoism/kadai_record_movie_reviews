@@ -1,20 +1,91 @@
-<h1>Posts#show</h1>
-<p>Find me in app/views/posts/show.html.erb</p>
-
-<%= @post.title %>
-<%= @post.comment %>
-<%= @post.helpfuls.count %>
-<% if current_user.already_helpfuled?(@post) %>
-  <%= button_to '参考になった！を取り消す', post_helpful_path(@post), method: :delete %>
-<% else %>
-  <%= button_to '参考になった！', post_helpfuls_path(@post) %>
-<% end %>
-
-<%= link_to '編集する', edit_post_path %>
+<h2>詳細</h2>
+<table class="table">
+  <tbody>
+    <tr>
+      <td>タイトル</td>
+      <td><%= @post.title %></td>
+    </tr>
+    <tr>
+      <td>鑑賞した日時</td>
+      <td><%= @post.watched_on.strftime("%Y年 %m月 %d日") %></td>
+    </tr>
+    <tr>
+      <td>鑑賞した劇場</td>
+      <td><%= @post.theater %></td>
+    </tr>
+    <tr>
+      <td>コメント</td>
+      <td><%= @post.comment %></td>
+    </tr>
+    <tr>
+      <td>レビュー</td>
+      <td>
+        <div id="rate"></div>
+        <script>
+          $(document).on('turbolinks:load', function(){
+            $('#rate').raty({
+              size: 36,
+              starOff:  '<%= asset_path('star-off.png') %>',
+              starOn :  '<%= asset_path('star-on.png') %>',
+              starHalf: '<%= asset_path('star-half.png') %>',
+              half: true,
+              readOnly: true,
+              score: <%= @post.rate %>,
+            });
+          });
+        </script> 
+      </td>
+    </tr>
+    <tr>
+      <td>参考になった！の数</td>
+      <td><%= @post.helpfuls.count %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <% if @post.user_id == current_user.id %>
+          <%= link_to '編集する', edit_post_path, class: "btn btn-primary" %>
+          <%= link_to '削除する', @post, method: :delete, data: { confirm: "この投稿を削除しますか？"}, class: 'btn btn-danger' %>
+        <% else %>
+          <% if current_user.already_helpfuled?(@post) %>
+            <%= button_to '参考になった！を取り消す', post_helpful_path(@post), method: :delete, class: "btn btn-primary" %>
+          <% else %>
+            <%= button_to '参考になった！', post_helpfuls_path(@post), class: "btn btn-primary" %>
+          <% end %>
+        <% end %>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 <% if @posts_of_the_same_name.exists? %>
   <h3>同名のタイトルの映画のレビューに以下の様なものがあります</h3>
-  <% @posts_of_the_same_name.each do |post| %>
-    <%= post.title %>
-  <% end %>
+  <table class="table table-striped">
+    <% @posts_of_the_same_name.each do |post| %>
+      <tr>
+        <td><%= link_to post.title, post_path(post) %></td>
+        <td><%= post.watched_on %></td>
+        <td><%= post.theater    %></td>
+        <td><%= post.comment.truncate(13)    %></td>
+        <td>
+          <div id="star-rate-<%= post.id %>"></div>
+          <script>
+            $(document).on('turbolinks:load', function(){
+              $('#star-rate-<%= post.id %>').raty({
+                size: 36,
+                starOff:  '<%= asset_path('star-off.png') %>',
+                starOn :  '<%= asset_path('star-on.png') %>',
+                starHalf: '<%= asset_path('star-half.png') %>',
+                half: true,
+                readOnly: true,
+                score: <%= post.rate %>,
+              });
+            });
+          </script>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  <h4>同名のタイトルのレビューなかったわ</h4>
 <% end %>

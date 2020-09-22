@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!
+  before_action :require_current_user!, only: [:edit, :destroy]
 
   def new
     @post = Post.new
@@ -9,7 +10,7 @@ class PostsController < ApplicationController
     post = Post.new(post_params)
     post.user_id = current_user.id
     post.save!
-    redirect_to root_path, notice: 'save'
+    redirect_to post_path(post), notice: 'save'
   end
 
   def index
@@ -36,12 +37,24 @@ class PostsController < ApplicationController
   end
 
   def update
+    post = Post.find(params[:id])
+    post.update!(post_params)
+    redirect_to post_path(post)
+  end
 
+  def destroy
+    post = Post.find(params[:id])
+    post.destroy!
+    redirect_to posts_path
   end
 
   private
-  post_attr = [:title, :watched_on, :theater, :comment]
   def post_params
     params.require(:post).permit(:title, :watched_on, :theater, :comment, :rate)
+  end
+
+  def require_current_user!
+    post = Post.find(params[:id])
+    redirect_to posts_path unless post.user_id == current_user.id
   end
 end
