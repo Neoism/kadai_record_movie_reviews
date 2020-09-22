@@ -14,7 +14,7 @@ class Post < ApplicationRecord
     if search.present?
       posts = Post.where('title LIKE ?', "%#{search}%")
     else
-      posts = Post.none
+      posts = Post.all
     end
   end
 end
