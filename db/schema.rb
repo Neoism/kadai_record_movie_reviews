@@ -25,13 +25,13 @@ ActiveRecord::Schema.define(version: 2020_09_21_200550) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.string "title"
+    t.string "title", null: false
     t.date "watched_on"
     t.string "theater"
     t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "userid"
+    t.integer "user_id", null: false
     t.float "rate", default: 0.0, null: false
   end
 
