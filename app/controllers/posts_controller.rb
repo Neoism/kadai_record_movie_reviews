@@ -18,11 +18,7 @@ class PostsController < ApplicationController
   end
 
   def search
-    if params[:keyword].present?
-      @posts = Post.where('title LIKE ?', "%#{params[:keyword]}%")
-    else
-      @posts = Post.none
-    end
+    @posts = Post.search(params[:keyword])
     render :index
   end
 

@@ -11,10 +11,10 @@ class Post < ApplicationRecord
   }, presence: true
 
   def self.search(search)
-    if search
-      Post.where(['content LIKE ?', "%#{search}%"])
+    if search.present?
+      posts = Post.where('title LIKE ?', "%#{search}%")
     else
-      Post.all
+      posts = Post.none
     end
   end
 end
