@@ -11,3 +11,10 @@
 <% end %>
 
 <%= link_to '編集する', edit_post_path %>
+
+<% if @posts_of_the_same_name.exists? %>
+  <h3>同名のタイトルの映画のレビューに以下の様なものがあります</h3>
+  <% @posts_of_the_same_name.each do |post| %>
+    <%= post.title %>
+  <% end %>
+<% end %>

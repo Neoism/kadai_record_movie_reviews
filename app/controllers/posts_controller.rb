@@ -16,9 +16,19 @@ class PostsController < ApplicationController
     @posts = Post.all
   end
 
+  def search
+    if params[:keyword].present?
+      @posts = Post.where('title LIKE ?', "%#{params[:keyword]}%")
+    else
+      @posts = Post.none
+    end
+    render :index
+  end
+
   def show
     @post = Post.find(params[:id])
     @helpful = Helpful.new
+    @posts_of_the_same_name = Post.where(title: @post.title).where.not(id: @post.id)
   end
 
   def edit

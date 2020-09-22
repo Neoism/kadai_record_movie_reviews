@@ -1,5 +1,6 @@
 <header>
   <% if user_signed_in? %>
+    <%= link_to "投稿する", new_post_path %>
     <%= link_to "みんなの投稿", posts_path %>
     <%= link_to "マイページ", user_path(current_user) %>
     <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>

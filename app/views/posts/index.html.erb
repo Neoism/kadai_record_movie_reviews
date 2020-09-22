@@ -1,5 +1,10 @@
 <h1>Posts#index</h1>
 
+<%= form_with url: search_posts_path, method: :get, local: true do |f| %>
+  <%= f.text_field :keyword %>
+  <%= f.submit :search %>
+<% end %>
+
 <table>
   <thead>
   </thead>
@@ -13,14 +18,16 @@
         <td>
           <div id="star-rate-<%= post.id %>"></div>
           <script>
-            $('#star-rate-<%= post.id %>').raty({
-              size: 36,
-              starOff:  '<%= asset_path('star-off.png') %>',
-              starOn :  '<%= asset_path('star-on.png') %>',
-              starHalf: '<%= asset_path('star-half.png') %>',
-              half: true,
-              readOnly: true,
-              score: <%= post.rate %>,
+            $(document).on('turbolinks:load', function(){
+              $('#star-rate-<%= post.id %>').raty({
+                size: 36,
+                starOff:  '<%= asset_path('star-off.png') %>',
+                starOn :  '<%= asset_path('star-on.png') %>',
+                starHalf: '<%= asset_path('star-half.png') %>',
+                half: true,
+                readOnly: true,
+                score: <%= post.rate %>,
+              });
             });
           </script> 
         </td>
